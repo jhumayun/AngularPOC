@@ -1,0 +1,46 @@
+<div [hidden]="isOpen==true" class="row">
+    <div class="col-sm-12">
+        <button type="button" class="btn btn-success float-end" (click)="toggleForm()"><i class="bi bi-plus-circle"></i>&nbsp;New Campaign</button>
+    </div>
+</div>
+<form [hidden]="isOpen==false" (ngSubmit)="onSubmit($event, campaignAddForm)" #campaignAddForm="ngForm">
+    <div class="mb-3">
+        <h3>New Campaign</h3>
+    </div>
+    <div class="mb-1 row">
+        <label class="col-sm-2 col-form-label" for="campaignName">Campaign Name</label>
+        <div class="col-sm-10">
+            <input type="text" id="campaignName" name="campaignName" class="form-control form-control-sm" required [(ngModel)]="model.name" #campaignName="ngModel">
+            <div [hidden]="campaignName.valid || campaignName.pristine" class="alert alert-danger">
+                Name is required
+            </div>
+        </div>
+    </div>
+    <div class="mb-1 row">
+        <label class="col-sm-2 col-form-label" for="campaignStart">Start Date</label>
+        <div class="col-sm-4">
+            <mat-form-field>
+                <input matInput id="campaignStart" name="campaignStart" [matDatepicker]="campaignStart" placeholder="Choose start date" required [(ngModel)]="model.startDate">
+                <mat-datepicker-toggle matSuffix [for]="campaignStart"></mat-datepicker-toggle>
+                <mat-datepicker #campaignStart></mat-datepicker>
+            </mat-form-field>      
+        </div>
+        <label class="col-sm-2 col-form-label" for="campaignEnd">End Date</label>
+        <div class="col-sm-4">
+            <mat-form-field>
+                <input matInput id="campaignEnd" name="campaignEnd" [matDatepicker]="campaignEnd" placeholder="Choose end date" required [(ngModel)]="model.endDate">
+                <mat-datepicker-toggle matSuffix [for]="campaignEnd"></mat-datepicker-toggle>
+                <mat-datepicker #campaignEnd></mat-datepicker>
+            </mat-form-field>            
+        </div>
+        <div [hidden]="areDatesValid()" class="alert alert-danger">
+            {{datesError}}
+        </div>
+    </div>
+    <div class="mb-1 row">
+        <div class="col-sm-12">
+            <button type="submit" [disabled]="!campaignAddForm.form.valid || !areDatesValid()" class="btn btn-primary float-end ms-2">Submit</button>
+            <button (click)="setDefaultValueForModel(); toggleForm();" type="button" class="btn btn-outline-primary float-end ms-2">Cancel</button>
+        </div>
+    </div>
+</form>

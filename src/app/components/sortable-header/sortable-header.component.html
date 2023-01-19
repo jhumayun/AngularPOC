@@ -1,0 +1,7 @@
+<ng-template ngFor let-col [ngForOf]="columns" let-i="index">
+    <th (click)="onColumnClick(col)">
+        <span class="px-2">{{col.columnLabel}}</span>
+        <i [hidden]="isAscending(state.sortDirection) || state.column.attributeName !== col.attributeName" class="bi bi-arrow-down-short"></i>
+        <i [hidden]="isDescending(state.sortDirection) || state.column.attributeName !== col.attributeName" class="bi bi-arrow-up-short"></i>
+    </th>
+</ng-template>

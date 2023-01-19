@@ -1,0 +1,6 @@
+    <td>{{serialNo}}</td>
+    <td>{{campaign.id}}</td>
+    <td>{{campaign.name}}</td>
+    <td>{{campaign.startDate | date: 'dd-MM-YYYY'}}</td>
+    <td>{{campaign.endDate | date: 'dd-MM-YYYY'}}</td>
+    <td><button (click)="deleteCampaign(campaign)" type="button" class="btn btn-outline-dark"><i class="bi bi-trash3-fill"></i></button></td>
