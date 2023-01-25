@@ -1,9 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { Campaign } from '../../DataModels/Campaign';
 import { CampaignService } from '../../services/campaign.service';
 import { CampaignMsgService, CampaignOpMode } from '../../services/campaign-msg.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
 import { ColumnDefinition, SortDirection, SortSate } from '../sortable-header/ColumnDefinition';
 
 @Component({
@@ -17,10 +15,6 @@ export class CampaignListComponent {
   filteredCampaigns: Campaign[] = [];
   columnDefinition: ColumnDefinition[] = [];
   sortState!: SortSate;
-
-  @ViewChild(MatSort)  sort!: MatSort;
-  displayedColumns = ['id', 'name', 'startDate', 'endDate'];
-  matDataSource = new MatTableDataSource(this.campaigns);
 
   constructor(private campaignService: CampaignService, private campaignMsgSvc: CampaignMsgService){
     this.columnDefinition.push(new ColumnDefinition("#","", false));
@@ -37,9 +31,6 @@ export class CampaignListComponent {
     this.getCampaigns();
   }
 
-  ngAfterViewInit() {
-    this.matDataSource.sort = this.sort;
-  }
 
   onSortStateChange(){
     this.applySorting();
@@ -101,7 +92,6 @@ export class CampaignListComponent {
         return show;
       });
     }
-    this.matDataSource.data = this.filteredCampaigns;
     this.applySorting();    
   }
   
@@ -110,7 +100,6 @@ export class CampaignListComponent {
       (campaigns) => {
         this.campaigns = campaigns;
         this.filterCampaigns();
-        this.matDataSource.data = this.filteredCampaigns;
       }
     );
   }
@@ -121,7 +110,6 @@ export class CampaignListComponent {
        () => {
         this.campaigns.push(campaign);
         this.filterCampaigns();
-        this.matDataSource.data = this.filteredCampaigns;
        } 
     );
   }
@@ -132,7 +120,6 @@ export class CampaignListComponent {
         let index = this.filteredCampaigns.findIndex(c => c.id == campaign.id);
         this.filteredCampaigns[index] = campaign;
         this.filterCampaigns();
-        this.matDataSource.data = this.filteredCampaigns;
        } 
     );
   }
@@ -142,7 +129,6 @@ export class CampaignListComponent {
       () => {
         this.campaigns = this.campaigns.filter((c)=>c.id!==campaign.id);
         this.filterCampaigns();
-        this.matDataSource.data = this.filteredCampaigns;
       }
     );
   }

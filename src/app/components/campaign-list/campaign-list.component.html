@@ -1,10 +1,9 @@
 <div class="row">
-    <app-campaign-add (onAddCampaign)="addCampaign($event)" (onEditCampaign)="editCampaign($event)"></app-campaign-add>
+    <div class="col my-2">
+        <app-campaign-add (onAddCampaign)="addCampaign($event)" (onEditCampaign)="editCampaign($event)"></app-campaign-add>
+    </div>
 </div>
 <div class="row">
-    <div class="col-sm-12">
-        <h3>Custom rendering</h3>
-    </div>
     <div class="col-sm-12">
         <div class="input-group mb-3">
             <input (keyup)="filterCampaigns()" [(ngModel)]="searchText" type="text" class="form-control" placeholder="Search text" aria-label="Search text" aria-describedby="btn_clear">
@@ -21,38 +20,5 @@
                 </ng-template>
             </tbody>
         </table>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-12">
-        <h3>Rendered with Angular Materials</h3>
-    </div>
-    <div class="col-sm-12">
-    <mat-table [dataSource]="matDataSource" matSort>
-        
-        <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.id}}</mat-cell>
-        </ng-container>
-    
-        <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Campaign Name </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
-        </ng-container>
-    
-        <ng-container matColumnDef="startDate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.startDate | date: 'dd-MM-YYYY'}}</mat-cell>
-        </ng-container>
-    
-        <ng-container matColumnDef="endDate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> End Date </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.endDate | date: 'dd-MM-YYYY'}}</mat-cell>
-        </ng-container>
-      
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
     </div>
 </div>

@@ -8,8 +8,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatTableModule } from '@angular/material/table';
-import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AppComponent } from './app.component';
 import { CampaignListComponent } from './components/campaign-list/campaign-list.component';
@@ -36,8 +34,6 @@ import { SortableHeaderComponent } from './components/sortable-header/sortable-h
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTableModule,
-    MatToolbarModule,
     RouterModule.forRoot([
       {path: 'campaigns', component: CampaignListComponent},
       {path: '', redirectTo: '/campaigns', pathMatch: 'full'},
