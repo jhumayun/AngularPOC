@@ -19,6 +19,11 @@ export class CampaignService {
   addCampaign(campaign: Campaign):Observable<Campaign> {
     return this.http.post<Campaign>(this.apiUrl, campaign);
   }
+
+  editCampaign(campaign: Campaign):Observable<Campaign> {
+    const url = `${this.apiUrl}/${campaign.id}`;
+    return this.http.put<Campaign>(url, campaign);
+  }
   
   deleteCampaign(campaign: Campaign):Observable<Campaign> {
     const url = `${this.apiUrl}/${campaign.id}`

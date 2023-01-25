@@ -1,6 +1,7 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Campaign } from '../../DataModels/Campaign';
+import { CampaignMsgService, CampaignOpMode} from '../../services/campaign-msg.service';
 
 @Component({
   selector: 'app-campaign-add',
@@ -10,18 +11,29 @@ import { Campaign } from '../../DataModels/Campaign';
 
 export class CampaignAddComponent implements OnInit {
   @Output() onAddCampaign: EventEmitter<Campaign> = new EventEmitter();
+  @Output() onEditCampaign: EventEmitter<Campaign> = new EventEmitter();
   today: Date = new Date();
   isOpen: boolean = false;
   model!: Campaign;
+  mode!: CampaignOpMode;
   datesError: string = "";
 
-  constructor(){}
-
-  ngOnInit(): void {
-    this.setDefaultValueForModel();
+  constructor(private campaignMsgSvc: CampaignMsgService){
+    this.today.setHours(0);
+    this.today.setMinutes(0);
+    this.today.setSeconds(0);
+    this.today.setMilliseconds(0);
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
+    this.campaignMsgSvc.getCampaign.subscribe((c) => this.model = c);
+    this.campaignMsgSvc.getCampaignOp.subscribe((op) => {
+      this.mode = op;
+      if(this.mode == CampaignOpMode.update){
+        this.isOpen = true;
+      }
+    });
+    this.setFormDataAndMode(new Campaign("", this.today, this.today), CampaignOpMode.add);
   }
 
   toggleForm(){
@@ -33,27 +45,55 @@ export class CampaignAddComponent implements OnInit {
     }
   }
 
-  setDefaultValueForModel(){
-    this.today.setHours(0);
-    this.today.setMinutes(0);
-    this.today.setSeconds(0);
-    this.today.setMilliseconds(0);
-    this.model = new Campaign("", this.today, this.today);
+  AddCampaignClicked(){
+    this.setFormDataAndMode(new Campaign("", this.today, this.today), CampaignOpMode.add);
+    this.toggleForm();
+  }
+
+  setFormDataAndMode(campaign: Campaign, mode: CampaignOpMode){
+    this.campaignMsgSvc.setCampaign(campaign);
+    this.campaignMsgSvc.setCampaignOp(mode);
+  }
+
+  isEditMode(){
+    return this.mode == CampaignOpMode.update;
+  }
+
+  isAddMode(){
+    return this.mode == CampaignOpMode.add;
   }
 
   onSubmit($event: Event, form: NgForm) { 
     $event.preventDefault();
-    this.model.id = new Date().getTime();
-    this.onAddCampaign.emit(this.model);
-    
-    this.setDefaultValueForModel();
+    if(this.isAddMode()){
+      this.model.id = new Date().getTime();
+      this.onAddCampaign.emit(this.model);
+    }
+    else if(this.isEditMode()){
+      this.onEditCampaign.emit(this.model);
+    }
+
     this.toggleForm();
   }
 
   areDatesValid() {
     
     let isValid: boolean = false;
-    isValid = this.model.endDate.getTime() >= this.model.startDate.getTime();
+    let endDate: Date;
+    let startDate: Date;
+    if(!(this.model.endDate instanceof Date)){
+      endDate = new Date(this.model.endDate);
+    }
+    else{
+      endDate = this.model.endDate;
+    }
+    if(!(this.model.startDate instanceof Date)){
+      startDate = new Date(this.model.startDate);
+    }
+    else{
+      startDate = this.model.startDate;
+    }
+    isValid = endDate.getTime() >= startDate.getTime();
     if(!isValid){
       this.datesError = "Start date has to be earlier or equal to the end date.";
     }

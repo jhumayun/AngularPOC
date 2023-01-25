@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Campaign } from '../../DataModels/Campaign';
 import { CampaignService } from '../../services/campaign.service';
+import { CampaignMsgService, CampaignOpMode } from '../../services/campaign-msg.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ColumnDefinition, SortDirection, SortSate } from '../sortable-header/ColumnDefinition';
@@ -21,7 +22,7 @@ export class CampaignListComponent {
   displayedColumns = ['id', 'name', 'startDate', 'endDate'];
   matDataSource = new MatTableDataSource(this.campaigns);
 
-  constructor(private campaignService: CampaignService){
+  constructor(private campaignService: CampaignService, private campaignMsgSvc: CampaignMsgService){
     this.columnDefinition.push(new ColumnDefinition("#","", false));
     this.columnDefinition.push(new ColumnDefinition("Id","id", true));
     this.columnDefinition.push(new ColumnDefinition("Campaign Name","name", true)); 
@@ -125,6 +126,17 @@ export class CampaignListComponent {
     );
   }
 
+  editCampaign(campaign: Campaign){
+    this.campaignService.editCampaign(campaign).subscribe(
+       () => {
+        let index = this.filteredCampaigns.findIndex(c => c.id == campaign.id);
+        this.filteredCampaigns[index] = campaign;
+        this.filterCampaigns();
+        this.matDataSource.data = this.filteredCampaigns;
+       } 
+    );
+  }
+
   deleteCampaign(campaign: Campaign){
     this.campaignService.deleteCampaign(campaign).subscribe( 
       () => {
@@ -133,5 +145,10 @@ export class CampaignListComponent {
         this.matDataSource.data = this.filteredCampaigns;
       }
     );
+  }
+
+  editCampaignForm(campaign: Campaign){
+    this.campaignMsgSvc.setCampaign(campaign);
+    this.campaignMsgSvc.setCampaignOp(CampaignOpMode.update);
   }
 }

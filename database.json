@@ -2,7 +2,7 @@
   "campaigns": [
     {
       "id": 1001,
-      "name": "Promotion1",
+      "name": "Campaign1",
       "startDate": "2023-01-16T10:00:00.000Z",
       "endDate": "2023-01-30T12:00:00.000Z"
     },
@@ -25,10 +25,16 @@
       "endDate": "2023-01-30T12:00:00.000Z"
     },
     {
-      "name": "hello world",
-      "startDate": "2023-01-17T16:00:00.000Z",
-      "endDate": "2023-01-17T16:00:00.000Z",
+      "name": "hello world edited",
+      "startDate": "2023-01-18T16:00:00.000Z",
+      "endDate": "2023-01-30T16:00:00.000Z",
       "id": 1674020229719
+    },
+    {
+      "name": "test 1",
+      "startDate": "2023-01-15T16:00:00.000Z",
+      "endDate": "2023-01-26T16:00:00.000Z",
+      "id": 1674379414675
     }
   ]
 }

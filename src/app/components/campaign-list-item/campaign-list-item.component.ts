@@ -10,8 +10,13 @@ export class CampaignListItemComponent {
   @Input() campaign!: Campaign;
   @Input() serialNo!: Number;
   @Output() onDeleteCampaign: EventEmitter<Campaign> = new EventEmitter();
+  @Output() onEditCampaign: EventEmitter<Campaign> = new EventEmitter();
 
   deleteCampaign(campaign: Campaign){
     this.onDeleteCampaign.emit(campaign);
+  }
+
+  editCampaign(campaign: Campaign){
+    this.onEditCampaign.emit(campaign);
   }
 }

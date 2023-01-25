@@ -1,5 +1,5 @@
 <div class="row">
-    <app-campaign-add (onAddCampaign)="addCampaign($event)"></app-campaign-add>
+    <app-campaign-add (onAddCampaign)="addCampaign($event)" (onEditCampaign)="editCampaign($event)"></app-campaign-add>
 </div>
 <div class="row">
     <div class="col-sm-12">
@@ -17,7 +17,7 @@
             </thead>
             <tbody>
                 <ng-template ngFor let-campaign [ngForOf]="filteredCampaigns" let-i="index">
-                    <tr scope="row" app-campaign-list-item [serialNo]=i+1 [campaign]=campaign (onDeleteCampaign)="deleteCampaign($event)" ></tr>
+                    <tr scope="row" app-campaign-list-item [serialNo]=i+1 [campaign]=campaign (onDeleteCampaign)="deleteCampaign($event)" (onEditCampaign)="editCampaignForm($event)"></tr>
                 </ng-template>
             </tbody>
         </table>
